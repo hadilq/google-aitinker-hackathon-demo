@@ -1,4 +1,4 @@
-# Google AI Tinkerers Hackathon — Demo App
+# Google AI Tinkerers Hackathon — Demo App: Bridging Gaps in VLM with Agentic Systems
 
 *Agent-powered app scaffolded from the GoogleCloudPlatform **agent-starter-pack** (v0.15.2), with a local Streamlit playground, a deployable Agent Engine backend, and Terraform IaC for Google Cloud.*
 
