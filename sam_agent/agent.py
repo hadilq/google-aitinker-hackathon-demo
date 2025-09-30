@@ -902,6 +902,7 @@ agent = Agent(
         "3) Perform analysis using all available means. You may execute code when needed"
         "4) Following the conducted analysis, provide a final comprehensive answer to the user query."
         "5) Display all the analyzed images to the user."
+        "6) Always call segment_image_with_sam_tool before draw_masks_tool."
     ),
     tools=[segment_image_with_sam_tool, draw_masks_tool ],
 )

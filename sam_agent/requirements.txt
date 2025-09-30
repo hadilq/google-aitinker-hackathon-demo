@@ -1,6 +1,6 @@
 #torch==2.8.0
 numpy
 #opencv-python==4.12.0.88
-#opencv-python-headless
-opencv-python
+opencv-python-headless
+#opencv-python
 pillow
