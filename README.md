@@ -1,3 +1,188 @@
+# Google AI Tinkerers Hackathon — Demo App
+
+*Agent-powered app scaffolded from the GoogleCloudPlatform **agent-starter-pack** (v0.15.2), with a local Streamlit playground, a deployable Agent Engine backend, and Terraform IaC for Google Cloud.*
+
+---
+
+## ✨ What is this?
+
+This repository is a batteries‑included template for building and shipping a Generative AI agent during a hackathon (or beyond):
+
+* **Bring‑your‑own agent**: focus on your agent’s logic; the template handles UI, packaging, and deployment.
+* **Local Playground**: iterate quickly with a Streamlit chat UI that hot‑reloads your agent code.
+* **Agent Engine backend**: production‑ready service wrapper for your agent.
+* **Cloud‑native deployment**: Terraform modules + CI/CD hooks for Google Cloud.
+* **Observability**: OpenTelemetry ➜ Cloud Logging/Trace; BigQuery sink + Looker Studio template.
+
+> The project layout follows the starter pack conventions and keeps your agent code in `sam_agent/` alongside a small Streamlit front‑end in `frontend/` and infra in `deployment/`.
+
+---
+
+## 🗂️ Project structure
+
+```
+demo3/
+├── sam_agent/                 # Core application code
+│   ├── agent.py               # Your agent logic (edit me!)
+│   ├── agent_engine_app.py    # Agent Engine entrypoint
+│   └── utils/                 # Helpers
+├── frontend/                  # Streamlit playground UI
+├── deployment/                # Terraform + deployment scripts
+├── notebooks/                 # Prototyping & evaluation notebooks
+├── tests/                     # Unit/integration/load tests
+├── Makefile                   # Dev shortcuts
+├── GEMINI.md                  # Prompting/AI tool context for the repo
+└── pyproject.toml             # Python deps & tool config
+```
+
+---
+
+## ✅ Prerequisites
+
+Make sure you have these installed:
+
+* **Python** 3.11+ (recommended)
+* **[uv](https://docs.astral.sh/uv/)** (Python package manager)
+  *Tip:* install with `curl -LsSf https://astral.sh/uv/install.sh | sh`
+* **[Google Cloud SDK](https://cloud.google.com/sdk/docs/install)** (`gcloud`)
+* **[Terraform](https://developer.hashicorp.com/terraform/install)**
+* **make** (usually preinstalled on Linux/macOS)
+
+> Optional: **Nix** users can `nix develop` using `flake.nix`/`shell.nix`.
+
+---
+
+## 🚀 Quick start (local)
+
+Clone and spin up the playground:
+
+```bash
+# 1) Get the code
+git clone https://github.com/hadilq/google-aitinker-hackathon-demo.git
+cd google-aitinker-hackathon-demo
+
+# 2) Install deps & launch the Streamlit playground
+make install && make playground
+```
+
+Now open the URL printed by Streamlit and chat with your agent. Edit `sam_agent/agent.py` and save — the playground auto‑reloads.
+
+---
+
+## 🧠 Develop your agent
+
+1. **Prototype** in `notebooks/` (e.g., quick LLM/tooling experiments, evaluation with Vertex AI Evaluation).
+2. **Implement** the production path in `sam_agent/agent.py` (inputs ➜ tool calls ➜ outputs).
+3. **Run locally** via `make playground` and iterate.
+
+---
+
+## 🧪 Quality: tests & linting
+
+```bash
+make test      # unit/integration tests
+make lint      # ruff, mypy, codespell, etc.
+```
+
+---
+
+## ☁️ Deploy to Google Cloud
+
+There are two common paths:
+
+### 1) One‑command CI/CD bootstrap (recommended)
+
+This sets up a GitHub‑based pipeline and GCP infra with Terraform.
+
+```bash
+# From the repo root (after authenticating gcloud)
+uvx agent-starter-pack setup-cicd
+```
+
+Follow the prompts to provision:
+
+* GCP projects (dev/prod)
+* Artifact/Secret storage
+* Cloud Build or GitHub Actions CI/CD
+* Terraform state and service accounts
+
+### 2) Manual dev deploy
+
+```bash
+# Pick your dev project
+gcloud config set project <your-dev-project-id>
+
+# Deploy the Agent Engine backend (Cloud Run or equivalent)
+make backend
+```
+
+For full infra details see `deployment/` (Terraform modules, variables, environments).
+
+---
+
+## 🔧 Configuration
+
+Environment values vary by setup; common ones include:
+
+* `GCP_PROJECT_ID` – your Google Cloud project
+* `GCP_REGION` – e.g., `us-central1`
+* `BIGQUERY_DATASET` – for logs/metrics sink
+* `OTEL_EXPORTER_OTLP_ENDPOINT` – custom OTLP exporter if not using default GCP
+* `MODEL_*` / provider keys – if your agent calls external models/tools
+
+> The repo may include an `.envrc` for [direnv](https://direnv.net/). If present, adjust values and `direnv allow`.
+
+---
+
+## 🔭 Monitoring & analytics
+
+* **OpenTelemetry** emits traces/logs ➜ **Cloud Trace** & **Cloud Logging**.
+* **BigQuery** stores long‑term events; use the included **Looker Studio** dashboard template to visualize them.
+
+---
+
+## 🧰 Make targets
+
+| Command              | What it does                            |
+| -------------------- | --------------------------------------- |
+| `make install`       | Install dependencies with **uv**        |
+| `make playground`    | Launch local Streamlit UI (auto‑reload) |
+| `make backend`       | Build & deploy the Agent Engine service |
+| `make test`          | Run tests                               |
+| `make lint`          | Run linters/type checks/spell checks    |
+| `make setup-dev-env` | Bootstrap dev resources with Terraform  |
+| `uv run jupyter lab` | Start Jupyter Lab for notebooks         |
+
+---
+
+## 🗺️ Roadmap ideas (hackathon‑friendly)
+
+* Tool abstractions (search/db/calendar) with simple stubs
+* Thin evaluation harness (prompt/response datasets + metrics)
+* Minimal auth session state for the playground
+
+---
+
+## 🤝 Contributing
+
+PRs welcome! Please:
+
+* Keep code in `sam_agent/` small & composable
+* Add/adjust tests in `tests/`
+* Run `make lint && make test` before pushing
+
+---
+
+## 📄 License
+
+Choose a license (e.g., Apache‑2.0, MIT) and add `LICENSE`.
+
+---
+
+## 🙏 Acknowledgements
+
+* Based on **googleCloudPlatform/agent-starter-pack** (v0.15.2).
+* Thanks to the Google AI Tinkerers community for examples and feedback.
 # demo3
 
 
